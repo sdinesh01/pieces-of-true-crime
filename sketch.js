@@ -180,7 +180,7 @@ function draw() {
     if (displayText) {
         fill(0);
         textSize(30);
-        text(buttonText, button2.x + button2.width + 1000, button2.y + button2.height / 2);
+        text(buttonText, button2.x + button2.width + 1010, button2.y + button2.height /0.4);
     }
 }
 
