@@ -145,7 +145,7 @@ function draw() {
     if (displayText) {
         fill(0);
         textSize(30);
-        text(buttonText, button2.x + button2.width + 1000, button2.y + button2.height / 1);
+        text(buttonText, button2.x + button2.width + 1000, button2.y + button2.height / 1.3);
     }
 }
 
