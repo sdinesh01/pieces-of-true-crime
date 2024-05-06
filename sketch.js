@@ -70,7 +70,6 @@ function setup() {
     button2.style("font-family", "monospace")
     button2.style("font-size", "20px");
     button2.style("color", "black")
-    
 }
 
 function makeNotes() {
@@ -163,7 +162,6 @@ function makeNotes() {
 }
 
 function draw() {
-
     background(0, 0, 360);
     scale(zoom);
     for (let n of notes) {
@@ -182,7 +180,7 @@ function draw() {
     if (displayText) {
         fill(0);
         textSize(30);
-        text(buttonText, button2.x + button2.width + 1000, button2.y + button2.height / 1.3);
+        text(buttonText, button2.x + button2.width + 1000, button2.y + button2.height / 2);
     }
 }
 
