@@ -87,7 +87,7 @@ function makeNotes() {
     mergedArray = mergedArray.filter(str => !['..', ';.', '.;', '.', ';;'].includes(str));
 
     // Extract n elements from the shuffled array
-    let n = 50; // Example value of n
+    let n = 60; // Example value of n
     randomStrings = mergedArray.slice(0, n);
 
     // Reset notes array
