@@ -74,30 +74,67 @@ function setup() {
 }
 
 function makeNotes() {
-    // Merge the three arrays into one array
-    let mergedArray = ch1.concat(ch2, ch3);
+    // Define the number of pairs to pick from each chapter
+    let pairsPerChapter = 25;
 
-    // Shuffle the merged array randomly
-    for (let i = mergedArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [mergedArray[i], mergedArray[j]] = [mergedArray[j], mergedArray[i]];
+    // Define the arrays to store pairs of strings from each chapter
+    let randomStringPairs = [];
+
+    // Function to split text by sentence
+    function splitBySentence(text) {
+         return text.replace(/(?<!Mr|Ms|Mrs)\.(?!,)(?<=\.|\?|\!)(?<!;)(?<!—)(?<!")\s*(?=[A-Z])/g, "|")
+               .split("|");
     }
 
-    // Exclude strings that consist only of "..", ";.", or ".;"
-    mergedArray = mergedArray.filter(str => !['..', ';.', '.;', '.', ';;'].includes(str));
+    // Function to pick random pairs of items from an array
+    function pickRandomPairs(array, count) {
+        let result = [];
+        for (let i = 0; i < count; i++) {
+            let index = Math.floor(Math.random() * (array.length - 1)); // Ensure the index doesn't exceed array bounds
+            let pair = [array[index], array[index + 1]]; // Pick the current and next sentences as a pair
+            result.push(pair);
+            array.splice(index, 2); // Remove the selected pair from the array
+        }
+        return result;
+    }
 
-    // Extract n elements from the shuffled array
-    let n = 60; // Example value of n
-    randomStrings = mergedArray.slice(0, n);
+    // Split ch1 by sentence
+    let sentencesCh1 = [];
+    for (let i = 0; i < ch1.length; i++) {
+        let sentence = splitBySentence(ch1[i]);
+        sentencesCh1 = sentencesCh1.concat(sentence);
+    }
+
+    // Split ch2 by sentence
+    let sentencesCh2 = [];
+    for (let i = 0; i < ch2.length; i++) {
+        let sentence = splitBySentence(ch2[i]);
+        sentencesCh2 = sentencesCh2.concat(sentence);
+    }
+
+    // Split ch3 by sentence
+    let sentencesCh3 = [];
+    for (let i = 0; i < ch3.length; i++) {
+        let sentence = splitBySentence(ch3[i]);
+        sentencesCh3 = sentencesCh3.concat(sentence);
+    }
+
+    // Select random pairs of sentences from each chapter
+    let randomPairsCh1 = pickRandomPairs(sentencesCh1, pairsPerChapter);
+    let randomPairsCh2 = pickRandomPairs(sentencesCh2, pairsPerChapter);
+    let randomPairsCh3 = pickRandomPairs(sentencesCh3, pairsPerChapter);
+
+    // Concatenate all pairs from each chapter into a single array
+    randomStringPairs = randomStringPairs.concat(randomPairsCh1, randomPairsCh2, randomPairsCh3);
 
     // Reset notes array
     notes = [];
-  
+
     // Generate notes using randomStrings
     let x = height / 1.5;
     let y = height / 2.2;
     let count = 0;
-    for (let i = 0; i < randomStrings.length - 1; i += 2) {
+    for (let i = 0; i < randomStringPairs.length - 1; i += 2) {
         let img = createGraphics(height / 3, height / 3);
         img.colorMode(HSB, 360);
         img.textFont('monospace');
@@ -111,11 +148,11 @@ function makeNotes() {
         }
         img.noStroke();
         img.fill(0, 0, 0);
-        let ts = min(height / 45, map(randomStrings[i].length, 211, 904, height / 45, height / 300, true));
+        let ts = min(height / 45, map(randomStringPairs[i].length, 211, 904, height / 45, height / 300, true));
         if (ts < height / 120) ts = height / 90;
         img.textSize(ts);
-        img.text(randomStrings[i] + randomStrings[i + 1], height / 60, height / 60, height / 3.25, 2 * height);
-        notes.push(new Note(img, x, y, count, bg, randomStrings[i] + randomStrings[i + 1]));
+        img.text(randomStringPairs[i] , height / 60, height / 60, height / 3.25, 2 * height);
+        notes.push(new Note(img, x, y, count, bg, randomStringPairs[i]));
         x += height / 3;
         if (x > 20 * width / 11) {
             x = height / 1.5;
