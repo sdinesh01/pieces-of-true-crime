@@ -52,7 +52,7 @@ function setup() {
     //create button to retrieve new text
     button1 = createButton("I need more information");
     button1.mouseClicked(restart);
-    button1.size(100, 90);
+    button1.size(100, 100);
     button1.position(10, 100);
     button1.style("background-color", "#93b9e1");
     button1.style("font-family", "monospace")
